@@ -12,8 +12,8 @@ app.use(logfmt.requestLogger());
 // Routes definitions
 var routes = {
 	root: '/',
-	app: '/app/:appID',
-	search: '/search/:queryStr'
+	play: '/play/:appID',
+	app: '/app/:country/:appID'
 }
 
 // API response headers
@@ -26,13 +26,13 @@ var apiHeaders = {
 
 // Routing Root
 app.get(routes.root, function(req, res) {
-	var warningString = "Usage: /app/:appid"+ " <br/>"+" Example: /app/com.meetsapp";
-	warningString += "<br />Usage: /search/:appName"+ " <br/>"+" Example: /search/meetsapp";
+	var warningString = "Usage: /play/:appid"+ " <br/>"+" Example: /play/com.meetsapp";
+	warningString += "<br />Usage: /app/:country/:appid"+ " <br/>"+" Example: /app/kr/284910350";
 	res.send(warningString);
 });
 
 // Routing App
-app.get(routes.app, function(req, res) {
+app.get(routes.play, function(req, res) {
 
 	res.writeHead(200, apiHeaders);
 
@@ -42,21 +42,22 @@ app.get(routes.app, function(req, res) {
 		lang: req.headers["accept-language"].split(",")[0].replace("-", "_")
 	};
 
-	API.getApp(options, function(json) {
+	API.getPlay(options, function(json) {
 		res.end(json);
 	});
 });
 
-app.get(routes.search, function(req, res) {
+app.get(routes.app, function(req, res) {
 	res.writeHead(200, apiHeaders);
 
 	// Get options from request
 	var options = {
-		queryStr: req.params.queryStr,
+		appID: req.params.appID,
+		country: req.params.country,
 		lang: req.headers["accept-language"].split(",")[0].replace("-", "_")
 	};
 
-	API.getSearch(options, function(json) {
+	API.getApp(options, function(json) {
 		res.end(json);
 	})
 });
