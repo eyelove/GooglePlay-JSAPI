@@ -13,7 +13,8 @@ app.use(logfmt.requestLogger());
 var routes = {
 	root: '/',
 	play: '/play/:appID',
-	app: '/app/:country/:appID'
+	app1: '/app/:appID',
+	app2: '/app/:appID/:country'
 }
 
 // API response headers
@@ -27,13 +28,12 @@ var apiHeaders = {
 // Routing Root
 app.get(routes.root, function(req, res) {
 	var warningString = "Usage: /play/:appid"+ " <br/>"+" Example: /play/com.meetsapp";
-	warningString += "<br />Usage: /app/:country/:appid"+ " <br/>"+" Example: /app/kr/284910350";
+	warningString += "<br />Usage: /app/:appid/:country"+ " <br/>"+" Example: /app/284910350/kr";
 	res.send(warningString);
 });
 
 // Routing App
 app.get(routes.play, function(req, res) {
-
 	res.writeHead(200, apiHeaders);
 
 	// Get options from request
@@ -47,7 +47,22 @@ app.get(routes.play, function(req, res) {
 	});
 });
 
-app.get(routes.app, function(req, res) {
+app.get(routes.app1, function(req, res) {
+	res.writeHead(200, apiHeaders);
+
+	// Get options from request
+	var options = {
+		appID: req.params.appID,
+		country: 'kr',
+		lang: req.headers["accept-language"].split(",")[0].replace("-", "_")
+	};
+
+	API.getApp(options, function(json) {
+		res.end(json);
+	})
+});
+
+app.get(routes.app2, function(req, res) {
 	res.writeHead(200, apiHeaders);
 
 	// Get options from request
