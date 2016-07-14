@@ -38,8 +38,7 @@ app.get(routes.play, function(req, res) {
 
 	// Get options from request
 	var options = {
-		appID: req.params.appID,
-		lang: req.headers["accept-language"].split(",")[0].replace("-", "_")
+		appID: req.params.appID
 	};
 
 	API.getPlay(options, function(json) {
@@ -53,8 +52,7 @@ app.get(routes.app1, function(req, res) {
 	// Get options from request
 	var options = {
 		appID: req.params.appID,
-		country: 'kr',
-		lang: req.headers["accept-language"].split(",")[0].replace("-", "_")
+		country: 'kr'
 	};
 
 	API.getApp(options, function(json) {
@@ -68,8 +66,7 @@ app.get(routes.app2, function(req, res) {
 	// Get options from request
 	var options = {
 		appID: req.params.appID,
-		country: req.params.country,
-		lang: req.headers["accept-language"].split(",")[0].replace("-", "_")
+		country: req.params.country
 	};
 
 	API.getApp(options, function(json) {
