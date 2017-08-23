@@ -41,24 +41,31 @@ module.exports = {
     var r_averageUserRating = wrapper.find("meta[itemprop=ratingValue]").attr('content');
     var r_userRatingCount = wrapper.find("meta[itemprop=ratingCount]").attr('content');
     var r_viewUrl = wrapper.find("span[itemprop=offers] meta[itemprop=url]").attr('content');
+    var r_downloads = wrapper.find("[itemprop=numDownloads]").text();
+    var downloads = r_downloads.replace(/,/g,'').split('-').map(function(v) {return Number(v.trim())});
+    if (downloads.length != 2) {
+      downloads = [0, 0];
+    }
 
     // Technical metadata
     var r_primaryGenreName = wrapper.find("[itemprop=genre]").text();
-    var r_version = wrapper.find("[itemprop=softwareVersion]").text();
+    var r_version = wrapper.find("[itemprop=softwareVersion]").text().trim();
 
     return {
       title: r_name,
       storeurl: r_viewUrl,
       description: r_description,
-      version: null,
+      version: r_version,
       iconurl: r_icon,
       bundle: r_bundleId,
       price: parseInt(r_price),
       author: r_author,
       author_url: r_authorURL,
       rating: (parseFloat(r_averageUserRating).toFixed(1))/1, // string to float convert
-      rationcount: parseInt(r_userRatingCount),
-      genre: [ r_primaryGenreName ]
+      ratingcount: parseInt(r_userRatingCount),
+      genre: [ r_primaryGenreName ],
+      download_min: downloads[0],
+      download_max: downloads[1]
     }
   }
 }

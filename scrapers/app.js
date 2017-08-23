@@ -37,7 +37,7 @@ module.exports = {
 				author: r.sellerName,
 				author_url: r.sellerUrl,
 				rating: r.averageUserRating,
-				rationcount: r.userRatingCount,
+				ratingcount: r.userRatingCount,
 				genre: r.genres
 			}
 		} else {
