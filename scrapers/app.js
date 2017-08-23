@@ -25,6 +25,11 @@ module.exports = {
 
 		if (res.results.length>0) {
 			var r = res.results[0];
+			
+			var genres = r.genres;
+			genres.forEach(function(value, index){
+				genres[index] = value.trim();
+			});
 
 			return {
 				title: r.trackName,
@@ -38,7 +43,7 @@ module.exports = {
 				author_url: r.sellerUrl,
 				rating: r.averageUserRating,
 				ratingcount: r.userRatingCount,
-				genre: r.genres
+				genre: genres.join(',')
 			}
 		} else {
 			return {

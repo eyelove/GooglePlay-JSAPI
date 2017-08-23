@@ -63,7 +63,7 @@ module.exports = {
       author_url: r_authorURL,
       rating: (parseFloat(r_averageUserRating).toFixed(1))/1, // string to float convert
       ratingcount: parseInt(r_userRatingCount),
-      genre: [ r_primaryGenreName ],
+      genre: r_primaryGenreName,
       download_min: downloads[0],
       download_max: downloads[1]
     }
