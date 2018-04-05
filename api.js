@@ -40,7 +40,7 @@ module.exports = {
 	getPlay: function (config, callback) {
 		var basePath = "https://play.google.com/store/apps/details?id=";
 
-		request(basePath+config.appID, function (error, res, chunk) {
+		request(basePath + config.appID +"&hl=ko", function (error, res, chunk) {
 			if (!error && res.statusCode == 200) {
 				var scraper = require('./scrapers/play');
 				var data = scraper.parse(chunk);

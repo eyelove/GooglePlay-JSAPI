@@ -28,28 +28,26 @@ module.exports = {
 
     $ = cheerio.load(data);
     var r_bundleId = $('body').attr('data-docid');
-    var wrapper = $('.details-wrapper ');
+    var wrapper = $('body');
 
-    var r_icon = "http:" + wrapper.find(".cover-image").attr("src");
-    var r_name = wrapper.find(".document-title[itemprop=name]").text().trim();
-    var r_description = wrapper.find("[itemprop=description]").text().trim();
-    var r_author = wrapper.find("[itemprop=author] [itemprop=name]").text().trim();
+    var icon2x = wrapper.find("img[itemprop=image]").attr('srcset');
+    var r_icon = icon2x.substring(0, icon2x.indexOf(" "));
+    var r_name = wrapper.find("h1[itemprop=name]").find("span").text().trim();
+    var r_description = $("meta[name=description]").attr("content").trim();
+    var r_author = wrapper.find("a.hrTbp.R8zArc").filter("[itemprop!=genre]").text().trim();
     var r_authorURL = wrapper.find(".meta-info .dev-link").attr("href");
-    var r_price = wrapper.find("meta[itemprop=price]").attr('content');
+    var r_price = wrapper.find("meta[itemprop=price]").attr('content').replace(/[,₩]/g, '');
 
     // User rating from 0/5 and reviews amount
-    var r_averageUserRating = wrapper.find("meta[itemprop=ratingValue]").attr('content');
+    var r_averageUserRating = wrapper.find("div.BHMmbe").text().trim();
     var r_userRatingCount = wrapper.find("meta[itemprop=ratingCount]").attr('content');
-    var r_viewUrl = wrapper.find("span[itemprop=offers] meta[itemprop=url]").attr('content');
-    var r_downloads = wrapper.find("[itemprop=numDownloads]").text();
-    var downloads = r_downloads.replace(/,/g,'').split('-').map(function(v) {return Number(v.trim())});
-    if (downloads.length != 2) {
-      downloads = [0, 0];
-    }
+    var r_viewUrl = $("link[rel=canonical]").attr('href');
+    var r_downloads = wrapper.find("div.hAyfc").eq(2).find("span").text();
+    var downloads = [0, r_downloads.replace(/[,+]/g, '')];
 
     // Technical metadata
     var r_primaryGenreName = wrapper.find("[itemprop=genre]").text();
-    var r_version = wrapper.find("[itemprop=softwareVersion]").text().trim();
+    var r_version = wrapper.find("div.hAyfc").eq(3).find("span").text();
 
     return {
       title: r_name,
