@@ -36,7 +36,11 @@ module.exports = {
     var r_description = $("meta[name=description]").attr("content").trim();
     var r_author = wrapper.find("a.hrTbp.R8zArc").filter("[itemprop!=genre]").text().trim();
     var r_authorURL = wrapper.find(".meta-info .dev-link").attr("href");
-    var r_price = wrapper.find("meta[itemprop=price]").attr('content').replace(/[,₩]/g, '');
+    var price_text = wrapper.find("meta[itemprop=price]").attr('content');
+    var r_price = 0;
+    if (price_text) {
+      r_price = price_text.replace(/[,₩]/g, '');
+    }
 
     // User rating from 0/5 and reviews amount
     var r_averageUserRating = wrapper.find("div.BHMmbe").text().trim();
