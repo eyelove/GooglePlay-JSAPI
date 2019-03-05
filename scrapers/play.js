@@ -43,15 +43,15 @@ module.exports = {
     }
 
     // User rating from 0/5 and reviews amount
-    var r_averageUserRating = wrapper.find("div.BHMmbe").text().trim();
-    var r_userRatingCount = wrapper.find("meta[itemprop=ratingCount]").attr('content');
+    var r_averageUserRating = wrapper.find("meta[itemprop=ratingValue]").attr('content');
+    var r_userRatingCount = wrapper.find("meta[itemprop=reviewCount]").attr('content');
     var r_viewUrl = $("link[rel=canonical]").attr('href');
-    var r_downloads = wrapper.find("div.hAyfc").eq(2).find("span").text();
+    var r_downloads = wrapper.find("div.hAyfc").eq(2).find("span").last().text();
     var downloads = [0, r_downloads.replace(/[,+]/g, '')];
 
     // Technical metadata
     var r_primaryGenreName = wrapper.find("[itemprop=genre]").text();
-    var r_version = wrapper.find("div.hAyfc").eq(3).find("span").text();
+    var r_version = wrapper.find("div.hAyfc").eq(3).find("span").last().text();
 
     return {
       title: r_name,
