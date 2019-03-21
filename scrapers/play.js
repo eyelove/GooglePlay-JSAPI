@@ -53,6 +53,18 @@ module.exports = {
     var r_primaryGenreName = wrapper.find("[itemprop=genre]").text();
     var r_version = wrapper.find("div.hAyfc").eq(3).find("span").last().text();
 
+    // 스크린샷 이미지 리스트
+    var screen_list = [];
+    wrapper.find("button").filter('[data-screenshot-item-index]').each(function (idx, elem) {
+        var src = $(this).find('img').attr('src');
+        // lazy loading 이미지인 경우
+        if(src != null && src.indexOf('data:image') != -1) {
+          src = $(this).find('img').attr('data-src');
+        }
+
+        if(src != null) screen_list.push(src);
+    });
+
     return {
       title: r_name,
       storeurl: r_viewUrl,
@@ -67,7 +79,8 @@ module.exports = {
       ratingcount: parseInt(r_userRatingCount),
       genre: r_primaryGenreName,
       download_min: downloads[0],
-      download_max: downloads[1]
+      download_max: downloads[1],
+      screen_list: screen_list
     }
   }
 }

@@ -43,7 +43,8 @@ module.exports = {
 				author_url: r.sellerUrl,
 				rating: r.averageUserRating,
 				ratingcount: r.userRatingCount,
-				genre: genres.join('/')
+				genre: genres.join('/'),
+				screen_list: r.screenshotUrls
 			}
 		} else {
 			return {
