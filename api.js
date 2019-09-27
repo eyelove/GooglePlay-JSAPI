@@ -17,9 +17,16 @@ module.exports = {
 		request(basePath+config.appID+"&country="+config.country, function (error, res, chunk) {
 			if (!error && res.statusCode == 200) {
 				var scraper = require('./scrapers/app');
-				var data = scraper.parse(chunk);
-				if (typeof callback == 'function') {
-					callback(JSON.stringify(data));
+				try {
+					var data = scraper.parse(chunk);
+					if (typeof callback == 'function') {
+						callback(JSON.stringify(data));
+					}
+				} catch(error) {
+					// call callback anyway
+					callback(JSON.stringify({
+						error: 500
+					}));
 				}
 			} else {
 				// call callback anyway
@@ -43,9 +50,16 @@ module.exports = {
 		request(basePath + config.appID +"&hl=ko", function (error, res, chunk) {
 			if (!error && res.statusCode == 200) {
 				var scraper = require('./scrapers/play');
-				var data = scraper.parse(chunk);
-				if (typeof callback == 'function') {
-					callback(JSON.stringify(data));
+				try {
+					var data = scraper.parse(chunk);
+					if (typeof callback == 'function') {
+						callback(JSON.stringify(data));
+					}
+				} catch(error) {
+					// call callback anyway
+					callback(JSON.stringify({
+						error: 500
+					}));
 				}
 			} else {
 				// call callback anyway
